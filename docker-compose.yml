@@ -1,0 +1,25 @@
+# yaml aconfiguration
+version: "3.7"
+services:
+  mysql8042:
+    image: "mysql:8.0"
+    ports:
+      - "13306:3306"
+    command: "--default-authentication-plugin=mysql_native_password"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "sql_demo"
+    volumes:
+      - ./models/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+  redis50141:
+    image: "redis:latest"
+    ports:
+      - "16379:6379"
+  bluebell_app:
+    build: .
+    command: sh -c "./wait-for.sh mysql8042:3306 redis50141:6379 -- /bluebell_app conf/config.yaml"
+    depends_on:
+      - mysql8042
+      - redis50141
+    ports:
+      - "8080:8080"
