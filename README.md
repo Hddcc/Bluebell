@@ -17,7 +17,6 @@
 *   **数据库**：MySQL, Redis
 *   **配置**：Viper
 *   **日志**：Zap
-*   **路由**：gin-swagger (用于API文档)
 
 ## 快速开始
 
